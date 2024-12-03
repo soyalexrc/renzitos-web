@@ -52,3 +52,11 @@ model sales {
   id       Int    @id(map: "sales_pk") @default(autoincrement())
   currency String @db.VarChar(255)
 }
+
+model users {
+  name     String @db.VarChar(255)
+  email    String @unique @db.VarChar(255)
+  role     String @db.VarChar(255)
+  id       Int    @id(map: "users_pk") @default(autoincrement())
+  password String
+}
