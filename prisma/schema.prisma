@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model clients {
+  name     String  @db.VarChar(255)
+  id       Int     @id(map: "clients_pk") @default(autoincrement())
+  phone    String? @db.VarChar(255)
+  email    String? @db.VarChar(255)
+  address  String?
+  location Json?
+}
+
+model products {
+  title               String   @db.VarChar(255)
+  code                String   @db.VarChar(255)
+  price               Int
+  buy_price           Int
+  sales_percentage    Int
+  minimum_pricing     Int
+  stock               Int
+  description         String
+  category            String   @db.VarChar(255)
+  id                  Int      @id(map: "products_pk") @default(autoincrement())
+  images              String[]
+  colors              String[]
+  materials           String[]
+  more_specifications String[]
+  slug                String   @unique
+  created_at          DateTime @default(now())
+  updated_at          DateTime
+  currency            String   @db.VarChar(255)
+}
+
+model providers {
+  name     String   @db.VarChar(255)
+  phone    String?  @db.VarChar(255)
+  email    String?  @db.VarChar(255)
+  address  String?
+  id       Int      @id(map: "providers_pk") @default(autoincrement())
+  location Json?
+  products String[]
+}
+
+model sales {
+  amount   Int
+  id       Int    @id(map: "sales_pk") @default(autoincrement())
+  currency String @db.VarChar(255)
+}
+
+model users {
+  name     String @db.VarChar(255)
+  email    String @unique @db.VarChar(255)
+  role     String @db.VarChar(255)
+  id       Int    @id(map: "users_pk") @default(autoincrement())
+  password String
+}
