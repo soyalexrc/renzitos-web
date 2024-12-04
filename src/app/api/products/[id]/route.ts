@@ -1,9 +1,10 @@
 import * as jwt from "jsonwebtoken";
 import prisma from "@/lib/db/prisma";
 
-export async function GET(request: Request, {params}: { params: { id: string } }) {
+export async function GET(request: Request, {params}: { params: Promise<{ id: string }> }) {
     const headers = request.headers;
     const token = headers.get('authorization')?.replace('Bearer ', '');
+    const { id } = await params;
 
     try {
         if (!token) {
@@ -16,7 +17,7 @@ export async function GET(request: Request, {params}: { params: { id: string } }
 
         jwt.verify(token, process.env.JWT_SECRET);
 
-        const product = await prisma.products.findUnique({where: {id: Number(params.id)}});
+        const product = await prisma.products.findUnique({where: {id: Number(id)}});
 
         return Response.json({data: product}, {status: 200});
 
@@ -29,10 +30,11 @@ export async function GET(request: Request, {params}: { params: { id: string } }
     }
 }
 
-export async function PUT(request: Request, {params}: { params: { id: string } }) {
+export async function PUT(request: Request, {params}: { params: Promise<{ id: string }> }) {
     const headers = request.headers;
     const body = await request.json();
     const token = headers.get('authorization')?.replace('Bearer ', '');
+    const { id } = await params;
 
     try {
         if (!token) {
@@ -45,7 +47,7 @@ export async function PUT(request: Request, {params}: { params: { id: string } }
 
         jwt.verify(token, process.env.JWT_SECRET);
 
-        const product = await prisma.products.update({data: body, where: {id: Number(params.id)}});
+        const product = await prisma.products.update({data: body, where: {id: Number(id)}});
 
         return Response.json({data: product}, {status: 200});
     } catch (error) {
@@ -58,9 +60,10 @@ export async function PUT(request: Request, {params}: { params: { id: string } }
 }
 
 
-export async function DELETE(request: Request, {params}: { params: { id: string } }) {
+export async function DELETE(request: Request, {params}: { params: Promise<{ id: string }> }) {
     const headers = request.headers;
     const token = headers.get('authorization')?.replace('Bearer ', '');
+    const { id } = await params;
 
     try {
         if (!token) {
@@ -73,7 +76,7 @@ export async function DELETE(request: Request, {params}: { params: { id: string 
 
         jwt.verify(token, process.env.JWT_SECRET);
 
-        const product = await prisma.products.delete({where: {id: Number(params.id)}});
+        const product = await prisma.products.delete({where: {id: Number(id)}});
 
         return Response.json({data: product}, {status: 200});
     } catch (error) {
