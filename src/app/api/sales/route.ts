@@ -7,26 +7,26 @@ export async function GET(request: Request) {
 
     try {
         if (!token) {
-            return Response.json({ error: 'Token is required' }, { status: 400 });
+            return Response.json({error: 'Token is required'}, {status: 400});
         }
 
         if (!process.env.JWT_SECRET) {
-            return Response.json({ error: "JWT_SECRET not found" }, { status: 500 });
+            return Response.json({error: "JWT_SECRET not found"}, {status: 500});
         }
 
         jwt.verify(token, process.env.JWT_SECRET);
 
         const sales = await prisma.sales.findMany();
 
-        return Response.json({ data: sales }, { status: 200 });
-    } catch (error: any) {
-        if (error?.name === 'TokenExpiredError') {
-            return Response.json({ error: 'Token expired' }, { status: 401 });
+        return Response.json({data: sales}, {status: 200});
+    } catch (error) {
+        if (error instanceof Error && error?.name === 'TokenExpiredError') {
+            return Response.json({error: 'Token expired'}, {status: 401});
         }
-        return Response.json({ error }, { status: 500 });
+        return Response.json({error}, {status: 500});
     }
 }
 
 export async function POST() {
-    return Response.json({ text: 'sample' }, { status: 200 });
+    return Response.json({text: 'sample'}, {status: 200});
 }

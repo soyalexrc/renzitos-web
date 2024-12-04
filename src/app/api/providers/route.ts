@@ -19,8 +19,8 @@ export async function GET(request: Request) {
         const providers = await prisma.providers.findMany();
 
         return Response.json({ data: providers }, { status: 200 });
-    } catch (error: any) {
-        if (error?.name === 'TokenExpiredError') {
+    } catch (error) {
+        if (error instanceof Error && error?.name === 'TokenExpiredError') {
             return Response.json({ error: 'Token expired' }, { status: 401 });
         }
         return Response.json({ error }, { status: 500 });

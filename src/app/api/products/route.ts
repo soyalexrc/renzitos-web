@@ -20,8 +20,8 @@ export async function GET(request: Request) {
         const products = await prisma.products.findMany();
 
         return Response.json({data: products}, {status: 200});
-    } catch (error: any) {
-        if (error?.name === 'TokenExpiredError') {
+    } catch (error) {
+        if (error instanceof Error && error?.name === 'TokenExpiredError') {
             return Response.json({error: 'Token expired'}, {status: 401});
         }
         return Response.json({error}, {status: 500});
@@ -54,8 +54,8 @@ export async function POST(request: Request) {
         });
 
         return Response.json({data: product}, {status: 200});
-    } catch (error: any) {
-        if (error?.name === 'TokenExpiredError') {
+    } catch (error) {
+        if (error instanceof Error && error?.name === 'TokenExpiredError') {
             return Response.json({error: 'Token expired'}, {status: 401});
         }
         console.log(JSON.stringify(error));

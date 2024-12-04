@@ -1,6 +1,5 @@
 import * as jwt from "jsonwebtoken";
 import prisma from "@/lib/db/prisma";
-import {Client} from "undici-types";
 
 export async function GET(request: Request) {
     const headers = request.headers;
@@ -20,8 +19,8 @@ export async function GET(request: Request) {
         const clients = await prisma.clients.findMany();
 
         return Response.json({ data: clients }, { status: 200 });
-    } catch (error: any) {
-        if (error?.name === 'TokenExpiredError') {
+    } catch (error) {
+        if (error instanceof Error && error?.name === 'TokenExpiredError') {
             return Response.json({ error: 'Token expired' }, { status: 401 });
         }
         return Response.json({ error }, { status: 500 });
@@ -47,8 +46,8 @@ export async function POST(request: Request) {
         const client = await prisma.clients.create({ data: body });
 
         return Response.json({ data: client }, { status: 200 });
-    } catch (error: any) {
-        if (error?.name === 'TokenExpiredError') {
+    } catch (error) {
+        if (error instanceof  Error && error?.name === 'TokenExpiredError') {
             return Response.json({ error: 'Token expired' }, { status: 401 });
         }
         return Response.json({ error }, { status: 500 });

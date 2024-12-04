@@ -20,8 +20,8 @@ export async function GET(request: Request, { params }: { params: { id: string }
 
         return Response.json({ data: client }, { status: 200 });
 
-    } catch (error: any) {
-        if (error?.name === 'TokenExpiredError') {
+    } catch (error) {
+        if (error instanceof Error && error?.name === 'TokenExpiredError') {
             return Response.json({ error: 'Token expired' }, { status: 401 });
         }
         return Response.json({ error }, { status: 500 });
@@ -47,8 +47,8 @@ export async function PUT(request: Request, { params }: { params: { id: string }
         const client = await prisma.clients.update({ data: body, where: { id: Number(params.id) } });
 
         return Response.json({ data: client }, { status: 200 });
-    } catch (error: any) {
-        if (error?.name === 'TokenExpiredError') {
+    } catch (error) {
+        if (error instanceof Error && error?.name === 'TokenExpiredError') {
             return Response.json({ error: 'Token expired' }, { status: 401 });
         }
         return Response.json({ error }, { status: 500 });
@@ -74,8 +74,8 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
         const client = await prisma.clients.delete({ where: { id: Number(params.id) } });
 
         return Response.json({ data: client }, { status: 200 });
-    } catch (error: any) {
-        if (error?.name === 'TokenExpiredError') {
+    } catch (error) {
+        if (error instanceof Error && error?.name === 'TokenExpiredError') {
             return Response.json({ error: 'Token expired' }, { status: 401 });
         }
         return Response.json({ error }, { status: 500 });
