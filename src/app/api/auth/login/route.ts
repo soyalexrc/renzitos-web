@@ -30,7 +30,10 @@ export async function POST(request: Request) {
             expiresIn: '7d'
         });
 
-        return Response.json({token}, {status: 200});
+        return Response.json({token}, {
+            status: 200,
+
+        });
     } catch (error) {
         return Response.json({error}, {status: 500});
     }
