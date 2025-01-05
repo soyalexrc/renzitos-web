@@ -1,9 +1,4 @@
 import Image from "next/image";
-import prisma from "@/lib/db/prisma";
-import {initializeApp} from "firebase-admin";
-import {initAdmin} from "@/lib/firebase/firebaseAdmin";
-import {getFromBucket, getProducts} from "@/lib/firebase/firebase";
-
 export default async function Home() {
 // const clients = await prisma.clients.findMany();
 

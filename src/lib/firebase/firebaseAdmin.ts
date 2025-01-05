@@ -13,16 +13,10 @@ function formatPrivateKey(privateKey: string): string {
 
 export function createFirebaseAdminApp(params: FirebaseAdminAppParams) {
     const privateKey = formatPrivateKey(params.privateKey);
-
+    console.log(privateKey)
     if (admin.apps.length > 0) {
         return admin.app();
     }
-
-    // const cert = admin.credential.cert({
-    //     projectId: 'almacen-renzito',
-    //     clientEmail: 'firebase-adminsdk-t6147@almacen-renzito.iam.gserviceaccount.com',
-    //     privateKey
-    // });
 
     const cert = admin.credential.cert('service-account-key.json');
 

@@ -1,6 +1,6 @@
 import prisma from "@/lib/db/prisma";
 
-export async function GET({ params }: { params: Promise<{ id: string }> }) {
+export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
     // const headers = request.headers;
     // const token = headers.get('authorization')?.replace('Bearer ', '');
     const { id } = await params;
@@ -55,7 +55,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 }
 
 
-export async function DELETE({ params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(_: Request, { params }: { params: Promise<{ id: string }> }) {
     // const headers = request.headers;
     // const token = headers.get('authorization')?.replace('Bearer ', '');
     const { id } = await params;
