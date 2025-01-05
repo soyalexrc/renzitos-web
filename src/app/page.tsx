@@ -1,10 +1,18 @@
 import Image from "next/image";
 import prisma from "@/lib/db/prisma";
+import {initializeApp} from "firebase-admin";
+import {initAdmin} from "@/lib/firebase/firebaseAdmin";
+import {getFromBucket, getProducts} from "@/lib/firebase/firebase";
 
 export default async function Home() {
-const clients = await prisma.clients.findMany();
+// const clients = await prisma.clients.findMany();
 
-console.log(clients)
+// await initAdmin();
+// const imageUrl = await getFromBucket();
+// console.log(imageUrl);
+// const products = await getProducts();
+
+// console.log(products);
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
